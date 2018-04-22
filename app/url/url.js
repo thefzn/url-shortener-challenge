@@ -1,4 +1,4 @@
-const uuidv4 = require('uuid/v4');
+const encoder = require('../encoder');
 const { domain } = require('../../environment');
 const SERVER = `${domain.protocol}://${domain.host}`;
 
@@ -19,22 +19,20 @@ async function getUrl(hash) {
 
 /**
  * Generate an unique hash-ish- for an URL.
- * TODO: Deprecated the use of UUIDs.
- * TODO: Implement a shortening algorithm
  * @param {string} id
  * @returns {string} hash
  */
-function generateHash(url) {
-  // return uuidv5(url, uuidv5.URL);
-  return uuidv4();
+function generateHash(date) {
+  return encoder.encode(date);
 }
 
 /**
  * Generate a random token that will allow URLs to be (logical) removed
  * @returns {string} uuid v4
  */
-function generateRemoveToken() {
-  return uuidv4();
+function generateRemoveToken(date) {
+	const k = "zxcvbnmasdfghjklqwertyuiopPOIUYTREWQLKJHGFDSAMNBVCXZ1234567890";
+  return encoder.encode(date, "", k);
 }
 
 /**
@@ -45,20 +43,27 @@ function generateRemoveToken() {
  * @param {string} hash
  * @returns {object}
  */
-async function shorten(url, hash) {
+async function shorten(url) {
 
   if (!isValid(url)) {
     throw new Error('Invalid URL');
   }
 
   // Get URL components for metrics sake
+	
+	let date = new Date().getTime();
+	let hash = generateHash(date);
+	let exists = await getUrl(hash);
+	if(exists != null){
+		return shorten(url); // we already await so this should return a different hash
+	}
   const urlComponents = parseUrl(url);
   const protocol = urlComponents.protocol || '';
   const domain = `${urlComponents.host || ''}${urlComponents.auth || ''}`;
   const path = `${urlComponents.path || ''}${urlComponents.hash || ''}`;
 
   // Generate a token that will alow an URL to be removed (logical)
-  const removeToken = generateRemoveToken();
+  const removeToken = generateRemoveToken(date);
 
   // Create a new model instance
   const shortUrl = new UrlModel({
@@ -72,9 +77,9 @@ async function shorten(url, hash) {
     active: true
   });
 
-  const saved = await shortUrl.save();
-  // TODO: Handle save errors
-
+  const saved = await shortUrl.save((err)=>{
+		return false;
+	});
   return {
     url,
     shorten: `${SERVER}/${hash}`,
@@ -96,7 +101,5 @@ function isValid(url) {
 module.exports = {
   shorten,
   getUrl,
-  generateHash,
-  generateRemoveToken,
   isValid
 }
