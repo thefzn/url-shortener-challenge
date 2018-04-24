@@ -1,0 +1,13 @@
+<div *ngIf="url" class="detail_overlay">
+	<div class="detail_container">
+		<i class="btn close" (click)="doClose()">x</i>
+		<h3 [class.deactivated]="url.active">{{ url.shorten }}</h3>
+		<small>{{ url.url }}</small>
+		<div class="btn_group">
+			<button class="btn delete" (click)="doDelete()">Delete</button>
+			<button class="btn activate" [class.warn]="url.active" (click)="doToggle()">
+				{{ url.active ? "Deactivate" : "Activate" }}
+			</button>
+		</div>
+	</div>
+</div>

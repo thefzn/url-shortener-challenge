@@ -1,16 +1,7 @@
 body, html {
 	background-color: #7ae3c4;
 	background-image: radial-gradient(ellipse at center, #7ae3c4 17%,#65c5ba 100%);
-	color: #666;
 	font-family: 'Share', sans-serif;
 	height: 100%;
 	width: 100%;
-}
-h1, h2, h3, h4, h5, h6 {
-	margin: 0 0 10px;
-	color: #333;
-}
-p:last-child {
-	font-size: 1.8em;
-	margin-bottom: 0;
 }

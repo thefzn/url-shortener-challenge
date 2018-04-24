@@ -1,0 +1,27 @@
+.layout {
+	left: 50%;
+	margin: 0 -300px;
+	position: fixed;
+	top: 25%;
+	width: 600px;
+}
+.layout header .logo {
+	border: 2px solid #FFF;
+	border-radius: 5px;
+	line-height: 39px;
+	margin: 0 auto 20px;
+	padding: 10px;
+	width: 100px;
+}
+.layout header h1 {
+	color: #FFF;
+	font-size: 2em;
+	text-align: center;
+}
+.content {
+	background-color: #FFF;
+	display: block;
+	border-radius: 5px;
+	box-shadow: 0px 10px 50px 10px #65c5ba;
+	padding: 20px;
+}

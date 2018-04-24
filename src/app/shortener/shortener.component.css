@@ -1,0 +1,38 @@
+.shortener {
+	position: relative;
+}
+.shortener .shortener_input {
+	border: 1px solid #7ae3c4;
+	border-radius: 5px;
+	color: #333;
+	font-family: 'Share', sans-serif;
+	font-size: 1.5em;
+	line-height: 1;
+	margin: 0;
+	outline: none !important;
+	padding: 15px 65px 15px 15px;
+	vertical-align: middle;
+	width: 100%;
+}
+.shortener .shortener_button {
+	background-color: #65c5ba;
+	border: 0 none;
+	border-radius: 0 5px 5px 0;
+	color: #FFF;
+	font-size: 1.5em;
+	height: 56px;
+	outline: none !important;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 50px;
+}
+.shortener .shortener_error {
+	color: #a98642;
+	display: block;
+	font-size: 1em;
+	padding: 10px 15px 0;
+}
+.shortener .shortener_error[hidden] {
+	display: none;
+}
