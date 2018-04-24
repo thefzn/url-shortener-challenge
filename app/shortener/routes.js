@@ -39,15 +39,21 @@ router.get('/:hash', async (req, res, next) => {
 					next();
 					break;
 				default:
-					visit.register(req.params.hash);
-					res.redirect(source.url);
-					res.end();
+					try{
+						let r = visit.register(req.params.hash);
+						res.redirect(source.url);
+						res.end();
+					}catch(e){
+						let err = new Error('There was an internal error. Please try again');
+						err.status = 500;
+						next(err);
+					}
 					break;
 			}
 		}
 	}catch(e){
 		let err = new Error('There was an internal error. Please try again');
-		err.status = 400;
+		err.status = 500;
 		next(err);
 	}
 });

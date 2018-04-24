@@ -1,4 +1,5 @@
 const VisitModel = require('./schema');
+const url = require('../url/url');
 
 /**
  * Lookup for registered visits by hash.
@@ -16,12 +17,11 @@ async function getAll(hash) {
  * @returns {object}
  */
 async function register(hash) {
-	let source = await VisitModel.find({ hash });
-	
+	let source = await url.getUrl( hash );
 	if(source){
 		// Create a new model instance
 		const newVisit = new VisitModel({
-			hash,
+			hash: hash,
 			date: Date.now(),
 		});
 		const saved = await newVisit.save();

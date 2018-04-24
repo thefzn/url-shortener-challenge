@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const url = require('./url');
-const visit = require('../visit/visit');
 
 // Moving to a more RESTful structure
 
