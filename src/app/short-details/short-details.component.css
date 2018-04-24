@@ -15,7 +15,6 @@
 	margin: -75px 0 0 -200px;
 	padding: 20px 20px 40px;
 	position: fixed;
-	text-align: center;
 	top: 50%;
 	width: 400px;
 }
@@ -32,46 +31,18 @@
 	border-color: #BBB;
 	color: #BBB;
 }
-.detail_overlay .detail_container .btn.close {
-	color: #FFF;
-	font-style: normal;
-	font-weight: normal;
-	margin: 0;
-	min-width: 0;
-	opacity: 1;
-	padding: 5px 10px;
-	position: absolute;
-	top: -17px;
-	right: -17px;
-	text-shadow: none;
+.detail_overlay .detail_container small {
+	font-size: 1.2em;
+	color: #999;
 }
-.detail_overlay .detail_container .btn_group {
-	bottom: -20px;
-	left: 0;
-	position: absolute;
-	right: 0;
-	text-align: center;
-}
-.detail_overlay .detail_container .btn {
-	background-color: #517c9c;
-	border-radius: 25px;
-	box-shadow: 0px 10px 25px 0px #65c5ba;
-	color: #FFFFFF;
-	margin: 0 10px;
-	min-width: 100px;
-	outline: none !important;
-	padding: 10px 20px;
-	transition: 0.5s;
-}
-.detail_overlay .detail_container .btn.warn {
-	background-color: #9c515e;
-	box-shadow: 0 10px 25px 0 #a08c8f;
-}
-.detail_overlay .detail_container .btn:hover {
-	background-color: #0072cc;
-	box-shadow: 0 10px 25px 0 #459ce0;
-}
-.detail_overlay .detail_container .btn.warn:hover {
-	background-color: #c33838;
-	box-shadow: 0 10px 25px 0 #ea798b;
+@media (max-width: 620px){
+	.detail_overlay .detail_container {
+		left: 10px;
+    margin-left: 0;
+    right: 10px;
+    width: auto;
+	}
+	.detail_overlay .detail_container h3 {
+		font-size: 1.4em;
+	}
 }

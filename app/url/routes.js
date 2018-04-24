@@ -76,7 +76,7 @@ router.put('/:hash', async (req, res, next) => {
 			hash = req.params.hash || false,
 			uActive = typeof req.body.active != "undefined" ? req.body.active : null,
 			uHash = req.body.hash || null,
-			source,newURL;
+			source,newURL,checkHash;
 	
 	// Check if hash exists
   try {
@@ -104,7 +104,7 @@ router.put('/:hash', async (req, res, next) => {
 		// Accept only non-existing hash
 		if(uHash != null){
 			try {
-				const checkHash = await url.getUrl(uHash);
+				checkHash = await url.getUrl(uHash);
 			} catch (e) {
 				let err = new Error('There was an internal error. Please try again');
 				err.status = 500;
@@ -175,8 +175,8 @@ router.delete('/:hash', async (req, res, next) => {
 		return;
 	}
 	try{
-		await url.remove(req.params.hash, force);
-		res.json(url.getSecure(source));
+		const r = await url.remove(req.params.hash, force);
+		res.json(url.getSecure(r));
 		res.end();
 	} catch(e) {
 		let err = new Error('There was an internal error while deleting. Please try again');

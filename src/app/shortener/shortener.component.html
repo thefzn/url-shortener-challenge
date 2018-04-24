@@ -2,6 +2,10 @@
 	<input type="text" [(ngModel)]="rawURL" placeholder="Your URL" class="shortener_input">
 	<input type="button" value=">" class="shortener_button" (click)="shorten();">
 	<span [hidden]=" errMsg == '' " class="shortener_error">{{ errMsg }}</span>
+	<div class="btn_group">
+		<button class="btn" routerLink="/list">View All</button>
+	</div>
+		
 	
 	<app-short-details [url]="activeURL" (onDelete)="onDelete()" (onToggle)="onToggle()" (onCloseDetails)="onCloseDetails()"></app-short-details>
 </div>

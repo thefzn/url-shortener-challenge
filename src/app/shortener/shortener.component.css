@@ -1,4 +1,5 @@
 .shortener {
+	min-height: 75px;
 	position: relative;
 }
 .shortener .shortener_input {
@@ -35,4 +36,7 @@
 }
 .shortener .shortener_error[hidden] {
 	display: none;
+}
+.shortener .btn_group{
+    bottom: -40px;
 }

@@ -126,7 +126,7 @@ async function update(hash, updates) {
  * @returns {object}
  */
 async function getList(all = false) {
-	const params = all ? {} : { active: true, removedAt: null };
+	const params = all ? {} : { removedAt: null };
   let source = await UrlModel.find(params);
   return source;
 }
@@ -146,14 +146,18 @@ function isValid(url) {
  * @returns {UrlModel}
  */
 function getSecure(url){
+		const shorten = url.shorten || `${SERVER}/${url.hash}`;
+		const removeUrl =  url.removeUrl || `${SERVER}/api/url/${url.hash}?token=${url.removeToken}`;
 		return secure = {
-				"active": url.active,
-				"createdAt": url.createdAt,
-				"url": url.url,
-				"hash": url.hash,
-				"isCustom": url.isCustom,
-				"removeToken": url.removeToken,
-				"removedAt": url.removedAt
+			"active": url.active,
+			"createdAt": url.createdAt,
+			"url": url.url,
+			"hash": url.hash,
+			"isCustom": url.isCustom,
+			"removeToken": url.removeToken,
+			"removedAt": url.removedAt,
+			shorten,
+			removeUrl
 		};
 }
 

@@ -13,7 +13,6 @@ export class ShortenerComponent implements OnInit {
 	errMsg: string = "";
 	activeURL: UrlModel;
 	private shortenURL: string = "";
-	private urlList: UrlModel[] = [];
   constructor( private short: ShortenerService ) { }
 	shorten(){
 		const pattern = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
@@ -24,22 +23,17 @@ export class ShortenerComponent implements OnInit {
 				.shorten(this.rawURL)
 				.subscribe(url => {
 					this.activeURL = url;
-					this.urlList.push(this.activeURL);
-					console.log(this.urlList)
 				});
 		}else{
 			this.errMsg = "The provided URL is invalid";
 		}
 	}
 	onToggle(){
-		console.log("toggle",this.activeURL);
 		if(this.activeURL){
 			this.activeURL.active = !this.activeURL.active;
 			this.short
-				.toggle(this.activeURL)
-				.subscribe(url => {
-					console.log(this.urlList)
-				});
+				.update(this.activeURL.hash, this.activeURL)
+				.subscribe(url => {});
 		}
 	}
 	onDelete(){
@@ -47,14 +41,7 @@ export class ShortenerComponent implements OnInit {
 			this.short
 				.remove(this.activeURL)
 				.subscribe(url => {
-					for(let i = 0, len = this.urlList.length; i < len; i++){
-						if(this.urlList[i] == this.activeURL){
-							this.urlList = this.urlList.splice(i,1);
-							break;
-						}
-					}
-					console.log(this.urlList);
-					//this.activeURL = null;
+					this.activeURL = null;
 				});
 		}
 	}

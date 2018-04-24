@@ -17,15 +17,12 @@ export class ShortDetailsComponent implements OnInit {
   ngOnInit() { }
 	
   doToggle () {
-		console.log("toggle", this, this.onToggle);
     this.onToggle.emit();
   }
 	doClose() {
-		console.log("close", this, this.onCloseDetails);
     this.onCloseDetails.emit();
 	}
 	doDelete() {
-		console.log("delete", this, this.onDelete);
     this.onDelete.emit();
 	}
 

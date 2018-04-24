@@ -11,8 +11,12 @@ import { LayoutComponent } from './layout/layout.component';
 import { ShortenerComponent } from './shortener/shortener.component';
 import { ShortDetailsComponent } from './short-details/short-details.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ShortListComponent } from './short-list/short-list.component';
 
 const appRoutes: Routes = [
+  { path: 'list',
+    component: ShortListComponent
+  },
   { path: '503',
     component: NotFoundComponent,
 	 	data: { message: 'Looks like you have the wrong short code.' }
@@ -30,7 +34,8 @@ const appRoutes: Routes = [
     LayoutComponent,
     ShortenerComponent,
     ShortDetailsComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ShortListComponent
   ],
   imports: [
 		BrowserModule,
