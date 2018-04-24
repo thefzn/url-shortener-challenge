@@ -12,8 +12,9 @@ const validUrl = require('valid-url');
  * @param {string} hash
  * @returns {object}
  */
-async function getUrl(hash) {
-  let source = await UrlModel.findOne({ active: true, hash });
+async function getUrl(hash, force = false) {
+	const params = force ? { hash } : { active: true, hash, removedAt: null };
+  let source = await UrlModel.findOne( params );
   return source;
 }
 
@@ -61,6 +62,7 @@ async function shorten(url) {
   const protocol = urlComponents.protocol || '';
   const domain = `${urlComponents.host || ''}${urlComponents.auth || ''}`;
   const path = `${urlComponents.path || ''}${urlComponents.hash || ''}`;
+	const createdAt = Date.now();
 
   // Generate a token that will alow an URL to be removed (logical)
   const removeToken = generateRemoveToken(date);
@@ -77,16 +79,56 @@ async function shorten(url) {
     active: true
   });
 
-  const saved = await shortUrl.save((err)=>{
-		return false;
-	});
+  const saved = await shortUrl.save();
+	
   return {
     url,
     shorten: `${SERVER}/${hash}`,
     hash,
-    removeUrl: `${SERVER}/${hash}/remove/${removeToken}`
+    removeUrl: `${SERVER}/api/url/${hash}?token=${removeToken}`,
+		active: true,
+		createdAt 
   };
 
+}
+
+/**
+ * Soft or hard delete an existing url/hash.
+ * @param {string} hash
+ * @param {boolean} force
+ * @returns {object}
+ */
+async function remove(hash, force = false) {
+	var res = null;
+	if(force){
+		res = await UrlModel.remove({ hash });
+	}else{
+		res = await UrlModel.findOneAndUpdate({ hash }, { $set: { removedAt: Date.now() }} );
+	}
+	return res;
+}
+
+/**
+ * Update ah existing hash.
+ * @param {string} hash
+ * @param {object} updates
+ * @returns {object}
+ */
+async function update(hash, updates) {
+	updates = typeof updates == "object" ? updates : {};
+	let res = await UrlModel.findOneAndUpdate({ hash }, { $set: updates } );
+	return res;
+}
+
+/**
+ * List active URLs, just for testing.
+ * @param {string} hash
+ * @returns {object}
+ */
+async function getList(all = false) {
+	const params = all ? {} : { active: true, removedAt: null };
+  let source = await UrlModel.find(params);
+  return source;
 }
 
 /**
@@ -98,8 +140,28 @@ function isValid(url) {
   return validUrl.isUri(url);
 }
 
+/**
+ * Generate a safe version of UrlModel
+ * @param {UrlModel} url
+ * @returns {UrlModel}
+ */
+function getSecure(url){
+		return secure = {
+				"active": url.active,
+				"createdAt": url.createdAt,
+				"url": url.url,
+				"hash": url.hash,
+				"isCustom": url.isCustom,
+				"removeToken": url.removeToken,
+				"removedAt": url.removedAt
+		};
+}
+
 module.exports = {
   shorten,
+	remove,
+	update,
+	getList,
   getUrl,
-  isValid
+	getSecure
 }

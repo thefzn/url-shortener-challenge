@@ -1,6 +1,15 @@
+
+/**
+ * Returns an encoded version of the date (or any positive integer) using the 
+ * provided key.
+ * @param {number} n
+ * @param {string} c
+ * @param {string} k
+ * @returns {array}
+ */
 function encode (n, c, k){
-	var n = typeof n == "number" ? n : 0, // Number is Number
-			c = typeof c == "string" ? c : "", // Encoding is always string
+	var n = typeof n == "number" ? n : 0, // n is Number
+			c = typeof c == "string" ? c : "", // c is always string
 			key = typeof k == "string" ? k : "1234567890qwertyuiopasdfghjklzQWERTYUIOPASDFGHJKLZXCVBNM+_-.~", // Use k parameter as key, of not set, use the default key
 			r = key.length;
 	n = n < 0 ? n * -1 : n; // Number is positive
